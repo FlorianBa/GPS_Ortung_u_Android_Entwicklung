@@ -2,6 +2,7 @@ package com.thi.projekt;
 
 
 import com.learn2crack.tab.R;
+
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -9,6 +10,7 @@ import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -64,9 +66,9 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			actionBar.addTab(actionBar.newTab().setText("GPS").setTabListener(tabListener));
 			
 			customView = getLayoutInflater().inflate(R.layout.actionbar_button, null);
-			actionbar.setCustomView(customView,
+			actionBar.setCustomView(customView,
 	                new ActionBar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.RIGHT));
-			actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
 			
 			ToggleButton button = (ToggleButton) customView.findViewById(R.id.button);
 			button.setOnCheckedChangeListener(this);
