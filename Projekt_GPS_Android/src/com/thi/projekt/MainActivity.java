@@ -2,17 +2,23 @@ package com.thi.projekt;
 
 
 import com.learn2crack.tab.R;
-
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
-public class MainActivity extends FragmentActivity{
-	ViewPager Tab;
-	TabPagerAdapter TabAdapter;
-	ActionBar actionBar;
+public class MainActivity extends FragmentActivity implements OnCheckedChangeListener{
+	private ViewPager Tab;
+	private TabPagerAdapter TabAdapter;
+	private ActionBar actionBar;
+	private View customView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -56,5 +62,24 @@ public class MainActivity extends FragmentActivity{
 			actionBar.addTab(actionBar.newTab().setText("Winkel").setTabListener(tabListener));
 			actionBar.addTab(actionBar.newTab().setText("RPM").setTabListener(tabListener));
 			actionBar.addTab(actionBar.newTab().setText("GPS").setTabListener(tabListener));
+			
+			customView = getLayoutInflater().inflate(R.layout.actionbar_button, null);
+			actionbar.setCustomView(customView,
+	                new ActionBar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.RIGHT));
+			actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+			
+			ToggleButton button = (ToggleButton) customView.findViewById(R.id.button);
+			button.setOnCheckedChangeListener(this);
+	}
+	
+	@Override
+	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+
+		if(isChecked){
+			Toast.makeText(this, "Start Saving", Toast.LENGTH_LONG).show();
+		}
+		else{
+			Toast.makeText(this, "Stop Saving", Toast.LENGTH_LONG).show();
+		}
 	}
 }
