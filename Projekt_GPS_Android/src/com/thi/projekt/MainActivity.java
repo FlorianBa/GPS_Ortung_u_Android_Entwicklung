@@ -79,6 +79,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 
 		if(isChecked){
 			Toast.makeText(this, "Start Saving", Toast.LENGTH_LONG).show();
+			// Hier kann ein Flag im Service gesetzt werden, um Daten zu speichern
 		}
 		else{
 			Toast.makeText(this, "Stop Saving", Toast.LENGTH_LONG).show();
