@@ -1,4 +1,4 @@
-package com.thi.projekt;
+package com.projekt;
 
 import java.util.Random;
 
@@ -6,12 +6,12 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.learn2crack.tab.R;
+import com.projekt.R;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

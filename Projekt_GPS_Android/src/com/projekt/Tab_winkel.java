@@ -1,16 +1,17 @@
-package com.thi.projekt;
+package com.projekt;
+
 import java.util.Random;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.learn2crack.tab.R;
+import com.projekt.R;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,94 +20,94 @@ import android.widget.LinearLayout;
 /*
  * Bei diesem Fragment fehlt noch die Anbindung an einem Service der die entsprechenden Daten liefert
  */
-public class Tab_acc extends Fragment {
-
+public class Tab_winkel extends Fragment {
+	
 	private GraphViewSeries series_x, series_y, series_z;
 	private Runnable mTimerX, mTimerY, mTimerZ;
-	private int lastXValueAccX = 0, lastXValueAccY = 0, lastXValueAccZ = 0;
+	private int lastXValueAngleX = 0, lastXValueAngleY = 0, lastXValueAngleZ = 0;
 	private final int refreshRate = 200, graphDataBuffer = 1000000, delayThread = 1;
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
 	private Random random = new Random();
 	private View fragmentView;
-
-
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-		fragmentView = inflater.inflate(R.layout.acc_frag, container, false);
+		fragmentView = inflater.inflate(R.layout.winkel_frag, container, false);
 
-		generateGraph("Acc X", R.id.graph_acc_x);
-		generateGraph("Acc y", R.id.graph_acc_y);
-		generateGraph("Acc z", R.id.graph_acc_z);
+		generateGraph("Angle X", R.id.graph_angle_x);
+		generateGraph("Angle y", R.id.graph_angle_y);
+		generateGraph("Angle z", R.id.graph_angle_z);
 
 		return fragmentView;
 	}
-
+	
 	public void onStart(){
 		super.onStart();
-
+		
 		// Wenn später die Daten durch einen Service geliefert werden, muss hier ein Reset der Series stattfinden
-
-		appendGraphData(R.id.graph_acc_x);
-		appendGraphData(R.id.graph_acc_y);
-		appendGraphData(R.id.graph_acc_z);
+		
+		appendGraphData(R.id.graph_angle_x);
+		appendGraphData(R.id.graph_angle_y);
+		appendGraphData(R.id.graph_angle_z);
 	}
-
+	
 	/*
 	 *  Methode zum Anhängen von Daten an Graphen
 	 */
 	private void appendGraphData(int id) {
 
 		switch(id){
-		case R.id.graph_acc_x: 
+		case R.id.graph_angle_x: 
 			if(mTimerX == null){
 				mTimerX = new Runnable() {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAccX, random.nextDouble()*3.5+0.1);
-
+						GraphViewData data = new GraphViewData(lastXValueAngleX, random.nextDouble()*3.5+0.1);
+						
 						series_x.appendData(data, scrollToEnd, graphDataBuffer);
-
-						lastXValueAccX += 1d;
+						
+						lastXValueAngleX += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
 				mHandler.postDelayed(mTimerX, delayThread);
 			}
 			break;
-
-		case R.id.graph_acc_y: 
+			
+		case R.id.graph_angle_y: 
 			if(mTimerY == null){
 				mTimerY = new Runnable() {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAccY, random.nextDouble()*3.5+0.1);
-
+						GraphViewData data = new GraphViewData(lastXValueAngleY, random.nextDouble()*3.5+0.1);
+						
 						series_y.appendData(data, scrollToEnd, graphDataBuffer);
 
-
-						lastXValueAccY += 1d;
+						
+						lastXValueAngleY += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
 				mHandler.postDelayed(mTimerY, delayThread);
 			}
 			break;
-
-		case R.id.graph_acc_z: 
+			
+		case R.id.graph_angle_z: 
 			if(mTimerZ == null){
 				mTimerZ = new Runnable() {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAccZ, random.nextDouble()*3.5+0.1);
-
+						GraphViewData data = new GraphViewData(lastXValueAngleZ, random.nextDouble()*3.5+0.1);
+						
 						series_z.appendData(data, scrollToEnd, graphDataBuffer);
-
-						lastXValueAccZ += 1d;
+						
+						lastXValueAngleZ += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -118,8 +119,8 @@ public class Tab_acc extends Fragment {
 
 		}
 	}
-
-
+	
+	
 	/*
 	 *  Methode zum Initialisieren eines Graphen
 	 */
@@ -131,17 +132,17 @@ public class Tab_acc extends Fragment {
 		GraphViewSeries.GraphViewSeriesStyle styleGreen = new GraphViewSeries.GraphViewSeriesStyle(Color.GREEN,2); 
 
 		switch(id){
-		case R.id.graph_acc_x: 
+		case R.id.graph_angle_x: 
 			series_x = new GraphViewSeries("x", styleRed,initData);
 			graphView.addSeries(series_x);;
 			break;
 
-		case R.id.graph_acc_y:
+		case R.id.graph_angle_y:
 			series_y = new GraphViewSeries("y", styleBlue,initData);
 			graphView.addSeries(series_y);
 			break;
 
-		case R.id.graph_acc_z:
+		case R.id.graph_angle_z:
 			series_z = new GraphViewSeries("z", styleGreen,initData);
 			graphView.addSeries(series_z);
 			break;
