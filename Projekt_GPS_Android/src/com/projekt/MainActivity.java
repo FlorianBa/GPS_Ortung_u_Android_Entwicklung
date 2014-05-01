@@ -1,16 +1,25 @@
 package com.projekt;
 
 import com.projekt.R;
+
 import android.app.ActionBar;
+import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnCheckedChangeListener {
 	public static Context appContext;
-
+	private ActionBar actionbar;
+	private View customView;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -18,7 +27,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		//ActionBar gets initiated
-		ActionBar actionbar = getActionBar();
+		actionbar = getActionBar();
 		//Tell the ActionBar we want to use Tabs.
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		//initiating  tabs and set text to it.
@@ -47,6 +56,24 @@ public class MainActivity extends Activity {
 		actionbar.addTab(winkel_Tab);
 		actionbar.addTab(rpm_Tab);
 		actionbar.addTab(gps_Tab);
+		
+		customView = getLayoutInflater().inflate(R.layout.actionbar_button, null);
+		actionbar.setCustomView(customView,
+                new ActionBar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.RIGHT));
+		actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+		
+		ToggleButton button = (ToggleButton) customView.findViewById(R.id.button);
+		button.setOnCheckedChangeListener(this);
 
+	}
+	@Override
+	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+		if(isChecked){
+			Toast.makeText(this, "Start Saving", Toast.LENGTH_LONG).show();
+			// Hier kann ein Flag im Service gesetzt werden, um Daten zu speichern
+		}
+		else{
+			Toast.makeText(this, "Stop Saving", Toast.LENGTH_LONG).show();
+		}
 	}
 }
