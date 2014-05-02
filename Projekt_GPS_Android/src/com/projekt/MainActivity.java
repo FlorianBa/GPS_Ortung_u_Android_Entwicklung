@@ -1,7 +1,5 @@
 package com.projekt;
 
-import com.projekt.R;
-
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.TabListener;
@@ -10,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
@@ -64,8 +63,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
 		
 		ToggleButton button = (ToggleButton) customView.findViewById(R.id.button);
 		button.setOnCheckedChangeListener(this);
-
+		
+		//Prevent Stand-By-Mode
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
+	
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		if(isChecked){
