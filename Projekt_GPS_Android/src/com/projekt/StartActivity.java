@@ -36,18 +36,16 @@ public class StartActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	protected void onStart(){
 		super.onStart();
 
-		/*
-		 * Für Dominic:
-		 * Hier ein Beispiel wie man auf die Einstellungen für Inter/Extern zugreifen kann
-		 * Muss nicht in onStart() sein, kann überall aufgerufen werden
-		 */
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		String storedPreference = pref.getString(KEY_LISTPREF, "kein Wert");	//"kein Wert" wird ausgegeben, wenn kein String für diesen Key gefunden wurde, ein Default-Wert sozusagen
-
-
+		String storedPreference = pref.getString(KEY_LISTPREF, "intern");
+		if(storedPreference.compareTo("intern") == 0){
+			CreateCSVReport.setExtStorage(false);
+		}else if(storedPreference.compareTo("extern") == 0){
+			CreateCSVReport.setExtStorage(true);
+		}
 	}
+
 }

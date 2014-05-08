@@ -3,7 +3,7 @@
 
     <PreferenceCategory android:title="Settings" >
         <ListPreference
-            android:defaultValue="Intern"
+            android:defaultValue="intern"
             android:entries="@array/storage_location"
             android:entryValues="@array/storage_location"
             android:key="saving"

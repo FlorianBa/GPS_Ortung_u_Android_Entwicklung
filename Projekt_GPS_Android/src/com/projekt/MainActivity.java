@@ -61,6 +61,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
 
 		// enables Back-Button in the ActionBar
 		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setHomeButtonEnabled(true);
 
 		customView = getLayoutInflater().inflate(R.layout.actionbar_button, null);
 		actionbar.setCustomView(customView,

@@ -2,8 +2,8 @@
 <resources>
 
     <string-array name="storage_location">
-        <item>Intern</item>
-        <item>Extern</item>
+        <item>intern</item>
+        <item>extern</item>
     </string-array>
 
 </resources>
