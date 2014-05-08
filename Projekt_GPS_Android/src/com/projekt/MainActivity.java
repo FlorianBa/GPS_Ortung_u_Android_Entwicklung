@@ -16,10 +16,12 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
-public class MainActivity extends Activity implements OnCheckedChangeListener {
+public class MainActivity extends Activity implements OnCheckedChangeListener, Tab_gps.MyCommunicationListener {
 	public static Context appContext;
 	private ActionBar actionbar;
 	private View customView;
+	private boolean isRecPressed = false;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,10 +81,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		if(isChecked){
 			Toast.makeText(this, "Start Saving", Toast.LENGTH_LONG).show();
+			isRecPressed = true;
 			// Hier kann ein Flag im Service gesetzt werden, um Daten zu speichern
 		}
 		else{
 			Toast.makeText(this, "Stop Saving", Toast.LENGTH_LONG).show();
+			isRecPressed = false;
 		}
 	}
 
@@ -95,5 +99,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean getRecState() {		
+		return isRecPressed;
 	}
 }
