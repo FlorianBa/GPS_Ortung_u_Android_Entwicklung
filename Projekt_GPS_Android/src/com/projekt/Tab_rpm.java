@@ -1,6 +1,5 @@
 package com.projekt;
 
-import java.util.Random;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -25,11 +24,9 @@ public class Tab_rpm extends Fragment {
 
 	private GraphViewSeries series_rpm1, series_rpm2, series_rpm3, series_rpm4;
 	private Runnable mTimer1, mTimer2, mTimer3, mTimer4;
-	private int lastXValueRPM1 = 0, lastXValueRPM2 = 0, lastXValueRPM3 = 0, lastXValueRPM4 = 0;
 	private final int refreshRate = 200, graphDataBuffer = 1000000, delayThread = 1;
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
-	private Random random = new Random();
 	private View fragmentView;
 
 
@@ -69,11 +66,10 @@ public class Tab_rpm extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueRPM1, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm1();
 
 						series_rpm1.appendData(data, scrollToEnd, graphDataBuffer);
 
-						lastXValueRPM1 += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -87,12 +83,10 @@ public class Tab_rpm extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueRPM2, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm2();
 
 						series_rpm2.appendData(data, scrollToEnd, graphDataBuffer);
 
-
-						lastXValueRPM2 += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -106,11 +100,10 @@ public class Tab_rpm extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueRPM3, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm3();
 
 						series_rpm3.appendData(data, scrollToEnd, graphDataBuffer);
 
-						lastXValueRPM3 += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -124,11 +117,10 @@ public class Tab_rpm extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueRPM4, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm4();
 
 						series_rpm4.appendData(data, scrollToEnd, graphDataBuffer);
 
-						lastXValueRPM4 += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};

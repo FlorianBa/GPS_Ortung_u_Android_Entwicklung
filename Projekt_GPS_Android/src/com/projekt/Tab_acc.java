@@ -1,5 +1,5 @@
 package com.projekt;
-import java.util.Random;
+
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -22,11 +22,9 @@ public class Tab_acc extends Fragment {
 
 	private GraphViewSeries series_x, series_y, series_z;
 	private Runnable mTimerX, mTimerY, mTimerZ;
-	private int lastXValueAccX = 0, lastXValueAccY = 0, lastXValueAccZ = 0;
 	private final int refreshRate = 200, graphDataBuffer = 1000000, delayThread = 1;
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
-	private Random random = new Random();
 	private View fragmentView;
 
 
@@ -63,12 +61,10 @@ public class Tab_acc extends Fragment {
 				mTimerX = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAccX, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccX();
 
 						series_x.appendData(data, scrollToEnd, graphDataBuffer);
 
-						lastXValueAccX += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -81,13 +77,10 @@ public class Tab_acc extends Fragment {
 				mTimerY = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAccY, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccY();
 
 						series_y.appendData(data, scrollToEnd, graphDataBuffer);
 
-
-						lastXValueAccY += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -100,21 +93,16 @@ public class Tab_acc extends Fragment {
 				mTimerZ = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAccZ, random.nextDouble()*3.5+0.1);
+						GraphViewData data =((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccZ();
 
 						series_z.appendData(data, scrollToEnd, graphDataBuffer);
 
-						lastXValueAccZ += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
 				mHandler.postDelayed(mTimerZ, delayThread);
 			}
 			break;
-
-
-
 		}
 	}
 

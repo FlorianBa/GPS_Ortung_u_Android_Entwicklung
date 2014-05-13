@@ -36,16 +36,17 @@ public class StartActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	@Override
 	protected void onStart(){
 		super.onStart();
-
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		String storedPreference = pref.getString(KEY_LISTPREF, "intern");
+		String storedPreference = pref.getString(KEY_LISTPREF, "kein Wert");
 		if(storedPreference.compareTo("intern") == 0){
 			CreateCSVReport.setExtStorage(false);
+			CreateKmlFile.setExtStorage(false);
 		}else if(storedPreference.compareTo("extern") == 0){
 			CreateCSVReport.setExtStorage(true);
+			CreateKmlFile.setExtStorage(true);
 		}
 	}
-
 }

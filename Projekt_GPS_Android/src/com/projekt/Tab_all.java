@@ -1,6 +1,5 @@
 package com.projekt;
 
-import java.util.Random;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.LegendAlign;
@@ -36,11 +35,9 @@ public class Tab_all extends Fragment {
 	series_rpm_4;
 
 	private Runnable mTimerAcc, mTimerAngle, mTimerRPM;
-	private int lastXValueAcc = 0, lastXValueAngle = 0, lastXValueRPM = 0;
 	private final int refreshRate = 200, graphDataBuffer = 1000000, delayThread = 1;
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
-	private Random random = new Random();
 	private View fragmentView;
 
 
@@ -77,16 +74,14 @@ public class Tab_all extends Fragment {
 				mTimerAcc= new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data1 = new GraphViewData(lastXValueAcc, random.nextDouble()*3.5+0.1);
-						GraphViewData data2 = new GraphViewData(lastXValueAcc, random.nextDouble()*3.5+0.1);
-						GraphViewData data3 = new GraphViewData(lastXValueAcc, random.nextDouble()*3.5+0.1);
+						GraphViewData dataX = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccX();
+						GraphViewData dataY = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccY();
+						GraphViewData dataZ = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccZ();
 						
-						series_acc_x.appendData(data1, scrollToEnd, graphDataBuffer);
-						series_acc_y.appendData(data2, scrollToEnd, graphDataBuffer);
-						series_acc_z.appendData(data3, scrollToEnd, graphDataBuffer);
-						
-						lastXValueAcc += 1d;
+						series_acc_x.appendData(dataX, scrollToEnd, graphDataBuffer);
+						series_acc_y.appendData(dataY, scrollToEnd, graphDataBuffer);
+						series_acc_z.appendData(dataZ, scrollToEnd, graphDataBuffer);
+
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -100,15 +95,14 @@ public class Tab_all extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data1 = new GraphViewData(lastXValueAngle, random.nextDouble()*3.5+0.1);
-						GraphViewData data2 = new GraphViewData(lastXValueAngle, random.nextDouble()*3.5+0.1);
-						GraphViewData data3 = new GraphViewData(lastXValueAngle, random.nextDouble()*3.5+0.1);
+						GraphViewData dataX = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleX();
+						GraphViewData dataY = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleY();
+						GraphViewData dataZ = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleZ();
 						
-						series_angle_x.appendData(data1, scrollToEnd, graphDataBuffer);
-						series_angle_y.appendData(data2, scrollToEnd, graphDataBuffer);
-						series_angle_z.appendData(data3, scrollToEnd, graphDataBuffer);
-						
-						lastXValueAngle += 1d;
+						series_angle_x.appendData(dataX, scrollToEnd, graphDataBuffer);
+						series_angle_y.appendData(dataY, scrollToEnd, graphDataBuffer);
+						series_angle_z.appendData(dataZ, scrollToEnd, graphDataBuffer);
+
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -122,17 +116,16 @@ public class Tab_all extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data1 = new GraphViewData(lastXValueRPM, random.nextDouble()*3.5+0.1);
-						GraphViewData data2 = new GraphViewData(lastXValueRPM, random.nextDouble()*3.5+0.1);
-						GraphViewData data3 = new GraphViewData(lastXValueRPM, random.nextDouble()*3.5+0.1);
-						GraphViewData data4 = new GraphViewData(lastXValueRPM, random.nextDouble()*3.5+0.1);
+						GraphViewData data1 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm1();
+						GraphViewData data2 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm2();
+						GraphViewData data3 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm3();
+						GraphViewData data4 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm4();
 						
 						series_rpm_1.appendData(data1, scrollToEnd, graphDataBuffer);
 						series_rpm_2.appendData(data2, scrollToEnd, graphDataBuffer);
 						series_rpm_3.appendData(data3, scrollToEnd, graphDataBuffer);
 						series_rpm_4.appendData(data4, scrollToEnd, graphDataBuffer);
-						
-						lastXValueRPM += 1d;
+
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};

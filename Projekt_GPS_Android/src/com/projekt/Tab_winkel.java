@@ -1,6 +1,6 @@
 package com.projekt;
 
-import java.util.Random;
+
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -24,11 +24,9 @@ public class Tab_winkel extends Fragment {
 	
 	private GraphViewSeries series_x, series_y, series_z;
 	private Runnable mTimerX, mTimerY, mTimerZ;
-	private int lastXValueAngleX = 0, lastXValueAngleY = 0, lastXValueAngleZ = 0;
 	private final int refreshRate = 200, graphDataBuffer = 1000000, delayThread = 1;
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
-	private Random random = new Random();
 	private View fragmentView;
 	
 	
@@ -66,11 +64,10 @@ public class Tab_winkel extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAngleX, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleX();
 						
 						series_x.appendData(data, scrollToEnd, graphDataBuffer);
-						
-						lastXValueAngleX += 1d;
+
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -84,12 +81,10 @@ public class Tab_winkel extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAngleY, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleY();
 						
 						series_y.appendData(data, scrollToEnd, graphDataBuffer);
 
-						
-						lastXValueAngleY += 1d;
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
@@ -103,20 +98,16 @@ public class Tab_winkel extends Fragment {
 					@Override
 					public void run() {
 						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = new GraphViewData(lastXValueAngleZ, random.nextDouble()*3.5+0.1);
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleZ();
 						
 						series_z.appendData(data, scrollToEnd, graphDataBuffer);
-						
-						lastXValueAngleZ += 1d;
+
 						mHandler.postDelayed(this, refreshRate);
 					}
 				};
 				mHandler.postDelayed(mTimerZ, delayThread);
 			}
 			break;
-
-
-
 		}
 	}
 	
