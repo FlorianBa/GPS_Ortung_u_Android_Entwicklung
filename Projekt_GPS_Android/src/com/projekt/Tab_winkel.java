@@ -21,16 +21,15 @@ import android.widget.LinearLayout;
  * Bei diesem Fragment fehlt noch die Anbindung an einem Service der die entsprechenden Daten liefert
  */
 public class Tab_winkel extends Fragment {
-
+	
 	private GraphViewSeries series_x, series_y, series_z;
 	private Runnable mTimerX, mTimerY, mTimerZ;
 	private final int refreshRate = 200, graphDataBuffer = 1000000, delayThread = 1;
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
 	private View fragmentView;
-	private volatile boolean isFragAlive;
-
-
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
@@ -42,18 +41,17 @@ public class Tab_winkel extends Fragment {
 
 		return fragmentView;
 	}
-
+	
 	public void onStart(){
 		super.onStart();
-
-		isFragAlive = true;
+		
 		// Wenn später die Daten durch einen Service geliefert werden, muss hier ein Reset der Series stattfinden
-
+		
 		appendGraphData(R.id.graph_angle_x);
 		appendGraphData(R.id.graph_angle_y);
 		appendGraphData(R.id.graph_angle_z);
 	}
-
+	
 	/*
 	 *  Methode zum Anhängen von Daten an Graphen
 	 */
@@ -65,49 +63,46 @@ public class Tab_winkel extends Fragment {
 				mTimerX = new Runnable() {
 					@Override
 					public void run() {
-						if(isFragAlive){
-						if(((MainActivity)getActivity()).tcpService != null) {
-							GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleX();			
-							series_x.appendData(data, scrollToEnd, graphDataBuffer);
-						}
+						// Diese Daten werden später durch andere Klasse geliefert
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleX();
+						
+						series_x.appendData(data, scrollToEnd, graphDataBuffer);
+
 						mHandler.postDelayed(this, refreshRate);
-						}
 					}
 				};
 				mHandler.postDelayed(mTimerX, delayThread);
 			}
 			break;
-
+			
 		case R.id.graph_angle_y: 
 			if(mTimerY == null){
 				mTimerY = new Runnable() {
 					@Override
 					public void run() {
-						if(isFragAlive){
-						if(((MainActivity)getActivity()).tcpService != null) {
-							GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleY();						
-							series_y.appendData(data, scrollToEnd, graphDataBuffer);
-						}
+						// Diese Daten werden später durch andere Klasse geliefert
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleY();
+						
+						series_y.appendData(data, scrollToEnd, graphDataBuffer);
+
 						mHandler.postDelayed(this, refreshRate);
-						}
 					}
 				};
 				mHandler.postDelayed(mTimerY, delayThread);
 			}
 			break;
-
+			
 		case R.id.graph_angle_z: 
 			if(mTimerZ == null){
 				mTimerZ = new Runnable() {
 					@Override
 					public void run() {
-						if(isFragAlive){
-						if(((MainActivity)getActivity()).tcpService != null) {
-							GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleZ();						
-							series_z.appendData(data, scrollToEnd, graphDataBuffer);
-						}
+						// Diese Daten werden später durch andere Klasse geliefert
+						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleZ();
+						
+						series_z.appendData(data, scrollToEnd, graphDataBuffer);
+
 						mHandler.postDelayed(this, refreshRate);
-						}
 					}
 				};
 				mHandler.postDelayed(mTimerZ, delayThread);
@@ -115,8 +110,8 @@ public class Tab_winkel extends Fragment {
 			break;
 		}
 	}
-
-
+	
+	
 	/*
 	 *  Methode zum Initialisieren eines Graphen
 	 */
@@ -154,10 +149,5 @@ public class Tab_winkel extends Fragment {
 
 		LinearLayout layout = (LinearLayout) fragmentView.findViewById(id);
 		layout.addView(graphView);
-	}
-	
-	public void onStop(){
-		super.onStop();
-		isFragAlive = false;
 	}
 }
