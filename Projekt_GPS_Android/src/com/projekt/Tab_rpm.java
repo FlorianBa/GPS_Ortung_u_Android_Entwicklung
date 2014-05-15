@@ -28,6 +28,7 @@ public class Tab_rpm extends Fragment {
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
 	private View fragmentView;
+	private volatile boolean isFragAlive;
 
 
 	@Override
@@ -46,6 +47,7 @@ public class Tab_rpm extends Fragment {
 	public void onStart(){
 		super.onStart();
 
+		isFragAlive = true;
 		// Wenn später die Daten durch einen Service geliefert werden, muss hier ein Reset der Series stattfinden
 
 		appendGraphData(R.id.graph_rpm_1);
@@ -65,12 +67,13 @@ public class Tab_rpm extends Fragment {
 				mTimer1 = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm1();
-
-						series_rpm1.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm1();
+								series_rpm1.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimer1, delayThread);
@@ -82,12 +85,13 @@ public class Tab_rpm extends Fragment {
 				mTimer2 = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm2();
-
-						series_rpm2.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm2();
+								series_rpm2.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimer2, delayThread);
@@ -99,12 +103,13 @@ public class Tab_rpm extends Fragment {
 				mTimer3 = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm3();
-
-						series_rpm3.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm3();
+								series_rpm3.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimer3, delayThread);
@@ -116,12 +121,13 @@ public class Tab_rpm extends Fragment {
 				mTimer4 = new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm4();
-
-						series_rpm4.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm4();
+								series_rpm4.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimer4, delayThread);
@@ -175,5 +181,10 @@ public class Tab_rpm extends Fragment {
 
 		LinearLayout layout = (LinearLayout) fragmentView.findViewById(id);
 		layout.addView(graphView);
+	}
+
+	public void onStop(){
+		super.onStop();
+		isFragAlive = false;
 	}
 }

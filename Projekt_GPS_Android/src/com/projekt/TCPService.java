@@ -225,90 +225,179 @@ public class TCPService extends Service {
 
 
 	public GraphViewData getCurrentGraphDataAccX(){
-		return listAccX.get(listAccX.size() - 1);
+		if(!listAccX.isEmpty())
+			return listAccX.get(listAccX.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDataAccY(){
-		return listAccY.get(listAccY.size() - 1);
+		if(!listAccY.isEmpty())
+			return listAccY.get(listAccY.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDataAccZ(){
-		return listAccZ.get(listAccZ.size() - 1);
+		if(!listAccZ.isEmpty())
+			return listAccZ.get(listAccZ.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDatarpm1(){
-		return listrpm1.get(listrpm1.size() - 1);
+		if(!listrpm1.isEmpty())
+			return listrpm1.get(listrpm1.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDatarpm2(){
-		return listrpm2.get(listrpm2.size() - 1);
+		if(!listrpm2.isEmpty())
+			return listrpm2.get(listrpm2.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDatarpm3(){
-		return listrpm3.get(listrpm3.size() - 1);
+		if(!listrpm3.isEmpty())
+			return listrpm3.get(listrpm3.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDatarpm4(){
-		return listrpm4.get(listrpm4.size() - 1);
+		if(!listrpm4.isEmpty())
+			return listrpm4.get(listrpm4.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDataAngleX(){
-		return listAngleX.get(listAngleX.size() - 1);
+		if(!listAngleX.isEmpty())
+			return listAngleX.get(listAngleX.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDataAngleY(){
-		return listAngleY.get(listAngleY.size() - 1);
+		if(!listAngleY.isEmpty())
+			return listAngleY.get(listAngleY.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public GraphViewData getCurrentGraphDataAngleZ(){
-		return listAngleZ.get(listAngleZ.size() - 1);
+		if(!listAngleZ.isEmpty())
+			return listAngleZ.get(listAngleZ.size() - 1);
+		else 
+			return new GraphViewData(0.0,0.0);
 	}
 
 	public LatLng getCurrentLocation(){
-		return listLocations.get(listLocations.size()-1);
+		if(!listLocations.isEmpty())
+			return listLocations.get(listLocations.size()-1);
+		else
+			return new LatLng(0.0,0.0);
 	}
+	
 	public List<LatLng> getAllLocations(){
-		return listLocations;
+		if(!listLocations.isEmpty())
+			return listLocations;
+		else{
+			listLocations.add(new LatLng(0.0,0.0));
+			return listLocations;
+		}
 	}
 
 	public GraphViewData[] getAllGraphDataAccX(){
-		return (GraphViewData[]) listAccX.toArray( new GraphViewData[listAccX.size()] );
+		if(!listAccX.isEmpty())
+			return (GraphViewData[]) listAccX.toArray( new GraphViewData[listAccX.size()] );
+		else{
+			listAccX.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listAccX.toArray( new GraphViewData[listAccX.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDataAccY(){
-		return (GraphViewData[]) listAccY.toArray( new GraphViewData[listAccZ.size()] );
+		if(!listAccY.isEmpty())
+			return (GraphViewData[]) listAccY.toArray( new GraphViewData[listAccY.size()] );
+		else{
+			listAccY.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listAccY.toArray( new GraphViewData[listAccY.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDataAccZ(){
-		return (GraphViewData[]) listAccZ.toArray( new GraphViewData[listAccZ.size()] );
+		if(!listAccZ.isEmpty())
+			return (GraphViewData[]) listAccZ.toArray( new GraphViewData[listAccZ.size()] );
+		else{
+			listAccZ.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listAccZ.toArray( new GraphViewData[listAccZ.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDatarpm1(){
-		return (GraphViewData[]) listrpm1.toArray( new GraphViewData[listrpm1.size()] );
+		if(!listrpm1.isEmpty())
+			return (GraphViewData[]) listrpm1.toArray( new GraphViewData[listrpm1.size()] );
+		else{
+			listrpm1.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listrpm1.toArray( new GraphViewData[listrpm1.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDatarpm2(){
-		return (GraphViewData[]) listrpm2.toArray( new GraphViewData[listrpm2.size()] );
+		if(!listrpm2.isEmpty())
+			return (GraphViewData[]) listrpm2.toArray( new GraphViewData[listrpm2.size()] );
+		else{
+			listrpm2.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listrpm2.toArray( new GraphViewData[listrpm2.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDatarpm3(){
-		return (GraphViewData[]) listrpm3.toArray( new GraphViewData[listrpm3.size()] );
+		if(!listrpm3.isEmpty())
+			return (GraphViewData[]) listrpm3.toArray( new GraphViewData[listrpm3.size()] );
+		else{
+			listrpm3.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listrpm3.toArray( new GraphViewData[listrpm3.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDatarpm4(){
-		return (GraphViewData[]) listrpm4.toArray( new GraphViewData[listrpm4.size()] );
+		if(!listrpm4.isEmpty())
+			return (GraphViewData[]) listrpm4.toArray( new GraphViewData[listrpm4.size()] );
+		else{
+			listrpm4.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listrpm4.toArray( new GraphViewData[listrpm4.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDataAngleX(){
-		return (GraphViewData[]) listAngleX.toArray( new GraphViewData[listAngleX.size()] );
+		if(!listAngleX.isEmpty())
+			return (GraphViewData[]) listAngleX.toArray( new GraphViewData[listAngleX.size()] );
+		else{
+			listAngleX.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listAngleX.toArray( new GraphViewData[listAngleX.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDataAngleY(){
-		return (GraphViewData[]) listAngleY.toArray( new GraphViewData[listAngleY.size()] );
+		if(!listAngleY.isEmpty())
+			return (GraphViewData[]) listAngleY.toArray( new GraphViewData[listAngleY.size()] );
+		else{
+			listAngleY.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listAngleY.toArray( new GraphViewData[listAngleY.size()] );
+		}
 	}
 
 	public GraphViewData[] getAllGraphDataAngleZ(){
-		return (GraphViewData[]) listAngleZ.toArray( new GraphViewData[listAngleZ.size()] );
+		if(!listAngleZ.isEmpty())
+			return (GraphViewData[]) listAngleZ.toArray( new GraphViewData[listAngleZ.size()] );
+		else{
+			listAngleZ.add(new GraphViewData(0.0,0.0));
+			return (GraphViewData[]) listAngleZ.toArray( new GraphViewData[listAngleZ.size()] );
+		}
 	}
 
 	public static void SetEnableSaving(boolean state){

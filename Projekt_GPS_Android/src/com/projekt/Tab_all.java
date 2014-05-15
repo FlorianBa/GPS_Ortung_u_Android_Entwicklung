@@ -12,17 +12,19 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /*
  * Bei diesem Fragment fehlt noch die Anbindung an einem Service der die entsprechenden Daten liefert
  */
 
 public class Tab_all extends Fragment {
-	
+
 	private GraphViewSeries series_acc_x,
 	series_acc_y,
 	series_acc_z,
@@ -39,6 +41,7 @@ public class Tab_all extends Fragment {
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
 	private View fragmentView;
+	private volatile boolean isFragAlive;
 
 
 	@Override
@@ -55,14 +58,14 @@ public class Tab_all extends Fragment {
 
 	public void onStart(){
 		super.onStart();
-
+		isFragAlive = true;
 		// Wenn später die Daten durch einen Service geliefert werden, muss hier ein Reset der Series stattfinden
-		
+
 		appendGraphData(R.id.graph_all_acc);
 		appendGraphData(R.id.graph_all_angle);
 		appendGraphData(R.id.graph_all_rpm);
 	}
-	
+
 	/*
 	 *  Methode zum Anhängen von Daten an Graphen
 	 */
@@ -74,59 +77,69 @@ public class Tab_all extends Fragment {
 				mTimerAcc= new Runnable() {
 					@Override
 					public void run() {
-						GraphViewData dataX = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccX();
-						GraphViewData dataY = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccY();
-						GraphViewData dataZ = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccZ();
-						
-						series_acc_x.appendData(dataX, scrollToEnd, graphDataBuffer);
-						series_acc_y.appendData(dataY, scrollToEnd, graphDataBuffer);
-						series_acc_z.appendData(dataZ, scrollToEnd, graphDataBuffer);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData dataX = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccX();
+								GraphViewData dataY = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccY();
+								GraphViewData dataZ = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccZ();
 
-						mHandler.postDelayed(this, refreshRate);
+								series_acc_x.appendData(dataX, scrollToEnd, graphDataBuffer);
+								series_acc_y.appendData(dataY, scrollToEnd, graphDataBuffer);
+								series_acc_z.appendData(dataZ, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
+						
 					}
 				};
 				mHandler.postDelayed(mTimerAcc, delayThread);
 			}
 			break;
-			
+
 		case R.id.graph_all_angle: 
 			if(mTimerAngle == null){
 				mTimerAngle= new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData dataX = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleX();
-						GraphViewData dataY = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleY();
-						GraphViewData dataZ = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleZ();
-						
-						series_angle_x.appendData(dataX, scrollToEnd, graphDataBuffer);
-						series_angle_y.appendData(dataY, scrollToEnd, graphDataBuffer);
-						series_angle_z.appendData(dataZ, scrollToEnd, graphDataBuffer);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData dataX = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleX();
+								GraphViewData dataY = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleY();
+								GraphViewData dataZ = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAngleZ();
 
-						mHandler.postDelayed(this, refreshRate);
+								series_angle_x.appendData(dataX, scrollToEnd, graphDataBuffer);
+								series_angle_y.appendData(dataY, scrollToEnd, graphDataBuffer);
+								series_angle_z.appendData(dataZ, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
+						
 					}
 				};
 				mHandler.postDelayed(mTimerAngle, delayThread);
 			}
 			break;
-			
+
 		case R.id.graph_all_rpm: 
 			if(mTimerRPM == null){
 				mTimerRPM= new Runnable() {
 					@Override
 					public void run() {
-						// Diese Daten werden später durch andere Klasse geliefert
-						GraphViewData data1 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm1();
-						GraphViewData data2 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm2();
-						GraphViewData data3 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm3();
-						GraphViewData data4 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm4();
-						
-						series_rpm_1.appendData(data1, scrollToEnd, graphDataBuffer);
-						series_rpm_2.appendData(data2, scrollToEnd, graphDataBuffer);
-						series_rpm_3.appendData(data3, scrollToEnd, graphDataBuffer);
-						series_rpm_4.appendData(data4, scrollToEnd, graphDataBuffer);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data1 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm1();
+								GraphViewData data2 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm2();
+								GraphViewData data3 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm3();
+								GraphViewData data4 = ((MainActivity)getActivity()).tcpService.getCurrentGraphDatarpm4();
 
-						mHandler.postDelayed(this, refreshRate);
+								series_rpm_1.appendData(data1, scrollToEnd, graphDataBuffer);
+								series_rpm_2.appendData(data2, scrollToEnd, graphDataBuffer);
+								series_rpm_3.appendData(data3, scrollToEnd, graphDataBuffer);
+								series_rpm_4.appendData(data4, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
+						
 					}
 				};
 				mHandler.postDelayed(mTimerRPM, delayThread);
@@ -137,8 +150,8 @@ public class Tab_all extends Fragment {
 
 		}
 	}
-	
-	
+
+
 	/*
 	 *  Methode zum Initialisieren eines Graphen
 	 */
@@ -193,4 +206,10 @@ public class Tab_all extends Fragment {
 		LinearLayout layout = (LinearLayout) fragmentView.findViewById(id);
 		layout.addView(graphView);
 	}
+
+	public void onStop(){
+		super.onStop();
+		isFragAlive = false;
+	}
+
 }

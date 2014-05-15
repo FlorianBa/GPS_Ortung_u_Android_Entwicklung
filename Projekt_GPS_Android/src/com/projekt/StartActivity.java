@@ -5,6 +5,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,6 +42,9 @@ public class StartActivity extends Activity implements OnClickListener {
 		super.onStart();
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		String storedPreference = pref.getString(KEY_LISTPREF, "kein Wert");
+		
+			Toast.makeText(this, "pref = " + pref.getString("saving", "kein Wert"), Toast.LENGTH_LONG).show(); // nur zum testen
+		
 		if(storedPreference.compareTo("intern") == 0){
 			CreateCSVReport.setExtStorage(false);
 			CreateKmlFile.setExtStorage(false);

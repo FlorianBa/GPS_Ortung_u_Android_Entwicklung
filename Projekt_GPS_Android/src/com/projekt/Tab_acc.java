@@ -6,6 +6,7 @@ import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.projekt.R;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,7 @@ public class Tab_acc extends Fragment {
 	private final boolean scrollToEnd = true;
 	private final Handler mHandler = new Handler();
 	private View fragmentView;
+	private volatile boolean isFragAlive;
 
 
 	@Override
@@ -39,10 +41,11 @@ public class Tab_acc extends Fragment {
 
 		return fragmentView;
 	}
-//1234
+	//1234
 	public void onStart(){
 		super.onStart();
 
+		isFragAlive = true;
 		// Wenn später die Daten durch einen Service geliefert werden, muss hier ein Reset der Series stattfinden
 
 		appendGraphData(R.id.graph_acc_x);
@@ -61,11 +64,13 @@ public class Tab_acc extends Fragment {
 				mTimerX = new Runnable() {
 					@Override
 					public void run() {
-						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccX();
-
-						series_x.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccX();
+								series_x.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimerX, delayThread);
@@ -77,11 +82,13 @@ public class Tab_acc extends Fragment {
 				mTimerY = new Runnable() {
 					@Override
 					public void run() {
-						GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccY();
-
-						series_y.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data = ((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccY();
+								series_y.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimerY, delayThread);
@@ -93,11 +100,13 @@ public class Tab_acc extends Fragment {
 				mTimerZ = new Runnable() {
 					@Override
 					public void run() {
-						GraphViewData data =((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccZ();
-
-						series_z.appendData(data, scrollToEnd, graphDataBuffer);
-
-						mHandler.postDelayed(this, refreshRate);
+						if(isFragAlive){
+							if(((MainActivity)getActivity()).tcpService != null) {
+								GraphViewData data =((MainActivity)getActivity()).tcpService.getCurrentGraphDataAccZ();
+								series_z.appendData(data, scrollToEnd, graphDataBuffer);
+							}
+							mHandler.postDelayed(this, refreshRate);
+						}
 					}
 				};
 				mHandler.postDelayed(mTimerZ, delayThread);
@@ -144,5 +153,10 @@ public class Tab_acc extends Fragment {
 
 		LinearLayout layout = (LinearLayout) fragmentView.findViewById(id);
 		layout.addView(graphView);
+	}
+	
+	public void onStop(){
+		super.onStop();
+		isFragAlive = false;
 	}
 }
