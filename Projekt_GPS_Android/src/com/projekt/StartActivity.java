@@ -40,8 +40,12 @@ public class StartActivity extends Activity implements OnClickListener {
 	protected void onStart(){
 		super.onStart();
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+<<<<<<< HEAD
 		String storedPreference = pref.getString(KEY_LISTPREF, "intern");
 		
+=======
+		String storedPreference = pref.getString(KEY_LISTPREF, "kein Wert");
+>>>>>>> 20a4f8225b06ecab021c71b509f932dc59be4ac8
 		if(storedPreference.compareTo("intern") == 0){
 			CreateCSVReport.setExtStorage(false);
 			CreateKmlFile.setExtStorage(false);

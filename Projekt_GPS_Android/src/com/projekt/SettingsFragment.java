@@ -11,11 +11,11 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
 	private ListPreference listpref;
 	private static final String KEY_LISTPREF = "saving";
+<<<<<<< HEAD
 	private ArrayList<StorageInfo> listStorage = (ArrayList<StorageInfo>) StorageUtils.getStorageList();
 
 	@Override
@@ -25,6 +25,17 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.settings);
 
+=======
+	
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Load the preferences from an XML resource
+        addPreferencesFromResource(R.xml.settings);
+        
+>>>>>>> 20a4f8225b06ecab021c71b509f932dc59be4ac8
 		PreferenceManager.setDefaultValues(getActivity(), R.xml.settings, false);
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		sharedPref.registerOnSharedPreferenceChangeListener(this);
@@ -33,6 +44,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 		listpref = (ListPreference)findPreference(KEY_LISTPREF);
 		listpref.setSummary(listpref.getEntry());
 
+<<<<<<< HEAD
 
 		// Test if "extern" was selected before SD-Card is removed  
 		int storageCounter = 0;
@@ -79,10 +91,18 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 				else
 					Toast.makeText(getActivity(), "SharedPref kein Wert", Toast.LENGTH_LONG).show();
 			}
+=======
+    }
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+		if(key.equals(KEY_LISTPREF)){
+			listpref.setSummary(listpref.getEntry());
+>>>>>>> 20a4f8225b06ecab021c71b509f932dc59be4ac8
 		}
-
+		
 	}
-
+	
 	@Override     
 	public void onResume() {
 		super.onResume();          
